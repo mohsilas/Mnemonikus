@@ -37,6 +37,25 @@ Mnemonikus is a single-page web application built with HTML, CSS, and JavaScript
 1. Anthropic's Claude API for text generation
 2. OpenAI's DALL-E API for image generation and TTS for the tour narration
 
+<details>
+  <summary> how it works: pseudocode </summary>
+
+  ```ts
+<div id="result"></div>
+
+settings = loadSettings()
+response = generateMnemonic(user_input)
+// response => blah blah <img_prompt> image prompt </img_prompt> blah blah <narration> blah blah </narration>
+response = generateImage(response) // replaces <img_prompt> with <img src="url-to-the-generated-img">
+resultDiv.innerHTML = response
+
+// other functions using special tags
+// sends <narration> to tts server and gets mp3
+toggleNarration() 
+downloadNarration()
+  ```
+</details>
+
 ## Setup and Usage
 
 1. Clone the repository or download the HTML file.
