@@ -17,7 +17,6 @@ Mnemonikus is a web application that generates memory palaces tour to help users
 * [Technical Overview](#technical-overview)
 * [Setup and Usage](#setup-and-usage)
 * [Configuration](#configuration)
-* [User Interface](#user-interface)
 * [Security Considerations](#security-considerations)
 * [License](#-license)
 
@@ -38,21 +37,21 @@ Mnemonikus is a single-page web application built with HTML, CSS, and JavaScript
 2. OpenAI's DALL-E API for image generation and TTS for the tour narration
 
 <details>
-  <summary> how it works: pseudocode </summary>
+  <summary> pseudocode </summary>
 
-  ```ts
+  ```javascript
 <div id="result"></div>
 
-settings = loadSettings()
-response = generateMnemonic(user_input)
+settings = loadSettings(); // settings can be accessed throughout the script
+response = generateMnemonic(user_input);
 // response => blah blah <img_prompt> image prompt </img_prompt> blah blah <narration> blah blah </narration>
 response = generateImage(response) // replaces <img_prompt> with <img src="url-to-the-generated-img">
-resultDiv.innerHTML = response
+resultDiv.innerHTML = response;
 
 // other functions using special tags
 // sends <narration> to tts server and gets mp3
-toggleNarration() 
-downloadNarration()
+toggleNarration();
+downloadNarration();
   ```
 </details>
 
@@ -126,19 +125,11 @@ step 6: generate a narration of the scene and info as if you're a teacher trying
 ```
   </details>
 
-## User Interface
-
-The UI consists of:
-
-- A text input area for the user's information
-- A settings panel (toggled by a gear icon)
-- A "Generate" button
-- A results area displaying the generated memory palace, images, and narration
-
 ## Security Considerations
 
 - API keys are stored in the browser's local storage, which is not secure for production environments.
 - The application uses the `dangerouslyAllowBrowser: true` option for the Anthropic client, which is not recommended for production use.
+- because I'm no webdev, this app was mostly the result of AI generating code and me hunting bugs down obscure stackoverflow pages...
 
 
 ## 🎫 License
