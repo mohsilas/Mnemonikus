@@ -13,11 +13,11 @@ Mnemonikus is a web application that generates memory palace tours to help users
 
 ## 📖 Table of Contents
 
-* [Features](#features)
-* [Technical Overview](#technical-overview)
-* [Setup and Usage](#setup-and-usage)
-* [Configuration](#configuration)
-* [Security Considerations](#security-considerations)
+* [Features](#-features)
+* [Technical Overview](#-technical-overview)
+* [Setup and Usage](#-setup-and-usage)
+* [Configuration](#-configuration)
+* [Security Considerations](#-security-considerations)
 * [License](#-license)
 
 ## 🦆 Features
@@ -72,7 +72,7 @@ Users can configure various settings:
 - Anthropic Model.
 - Max Tokens - max length of text generated.
 - Temperature - creativity from 0.0 to 1.0.
-- Custom Prompt - note that certain <tags> in the prompt are vital for the app's functions. see the default prompt below.
+- Custom Prompt - note that certain \<tags\> in the prompt are vital for the app's functions. see the default prompt below.
 - OpenAI Image Model.
 - Image Resolution - see the table below.
 - TTS Model - tts-1 is faster and cheaper, tts-1-hd produces higher quality.
