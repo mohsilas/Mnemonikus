@@ -58,9 +58,26 @@ Users can configure various settings:
 - Anthropic Model
 - Max Tokens - max length of text generated
 - Temperature - creativity from 0.0 to 1.0
-- Custom Prompt - you can play with this after understanding the default prompt:
-  <details>
-<summary> default prompt</summary>
+- Custom Prompt - note that certain <tags> in the prompt are vital for the app's functions. see the default prompt below.
+- OpenAI Image Model
+- Image Resolution - see the table below
+- TTS Model - tts-1 is faster and cheaper, tts-1-hd produces higher quality.
+
+These settings are stored in the browser's local storage for persistence.
+
+#### Resultions table:
+| resultions | Dalle3 | Dalle2 |
+|------------|--------|--------|
+| 1792x1024  | ✅      |        |
+| 1024x1792  | ✅      |        |
+| 1024x1024  | ✅      | ✅      |
+| 512x512    |        | ✅      |
+| 256x256    |        | ✅      |
+
+
+
+<details>
+<summary>Default prompt</summary>
 
 ```
 You're a creative writing AI agent named Mnemonikus whose job is to turn whatever complex info you're given into an image prompt comprehensively describing the interior of a memory palace (a memory palace is a location or a scene that's used to store information). Make sure the number of info given can fit the number of elements described as per the rules/tips/steps of creating a memory palace:
@@ -93,22 +110,6 @@ Step 5: Make the mnemonic images come alive with your senses. Exaggeration of th
 step 6: generate a narration of the scene and info as if you're a teacher trying to help students memorize the info through the memory palace technique. Use the disc generated and its image prompt as a guide. Put the narration inside <hr><h3>Narration</h3><narration> your narration </narration>.
 ```
   </details>
-
-  
-- OpenAI Image Model
-- Image Resolution:
-
-| resultions | Dalle3 | Dalle2 |
-|------------|--------|--------|
-| 1792x1024  | ✅      |        |
-| 1024x1792  | ✅      |        |
-| 1024x1024  | ✅      | ✅      |
-| 512x512    |        | ✅      |
-| 256x256    |        | ✅      |
-
-- TTS Model - tts-1 is faster and cheaper, tts-1-hd produces higher quality.
-
-These settings are stored in the browser's local storage for persistence.
 
 ## API Integration
 
