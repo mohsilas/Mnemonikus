@@ -47,13 +47,21 @@ Users can configure various settings:
 - Anthropic API Key
 - OpenAI API Key
 - Anthropic Model
-- Max Tokens
-- Temperature
+- Max Tokens - max length of text generated
+- Temperature - creativity from 0.0 to 1.0
 - Custom Prompt
 - OpenAI Image Model
-- Image Resolution
-- TTS Voice
-- TTS Model
+- Image Resolution:
+
+| resultions | Dalle3 | Dalle2 |
+|------------|--------|--------|
+| 1792x1024  | ✅      |        |
+| 1024x1792  | ✅      |        |
+| 1024x1024  | ✅      | ✅      |
+| 512x512    |        | ✅      |
+| 256x256    |        | ✅      |
+
+- TTS Model - tts-1 is faster and cheaper, tts-1-hd produces higher quality.
 
 These settings are stored in the browser's local storage for persistence.
 
