@@ -1,5 +1,14 @@
 # Mnemonikus
 
+<br>
+<div align="center">
+  <img/ src="https://github.com/user-attachments/assets/2ca621b7-7002-4004-8d39-c14958c7d741" height="25">&nbsp;&nbsp;
+  <img/ src="https://github.com/user-attachments/assets/3cd1ab55-deda-4cdd-a21e-951d91bf3231" height="25">&nbsp;&nbsp;
+  <img/ src="https://github.com/user-attachments/assets/1c6b002f-cfbb-4564-b4a2-563563de1735" height="25">&nbsp;&nbsp;
+  <img/ src="https://github.com/user-attachments/assets/38eb900d-e258-4575-a12a-c7ba56cb28db" height="25">
+</div>
+<br>
+
 Mnemonikus is a web application that generates memory palaces tour to help users memorize complex information. It uses Claude to generate the tour and Dalle3 to fill in the images.
 
 ## Table of Contents
