@@ -13,17 +13,13 @@ Mnemonikus is a web application that generates memory palaces tour to help users
 
 ## Table of Contents
 
-1. [Features](#features)
-2. [Technical Overview](#technical-overview)
-3. [Setup and Usage](#setup-and-usage)
-4. [Configuration](#configuration)
-5. [API Integration](#api-integration)
-6. [User Interface](#user-interface)
-7. [Image Generation](#image-generation)
-8. [Text-to-Speech](#text-to-speech)
-9. [Styling](#styling)
-10. [Security Considerations](#security-considerations)
-11. [Future Improvements](#future-improvements)
+* [Features](#features)
+* [Technical Overview](#technical-overview)
+* [Setup and Usage](#setup-and-usage)
+* [Configuration](#configuration)
+* [User Interface](#user-interface)
+* [Security Considerations](#security-considerations)
+* [License](#-license)
 
 ## Features
 
@@ -111,18 +107,6 @@ step 6: generate a narration of the scene and info as if you're a teacher trying
 ```
   </details>
 
-## API Integration
-
-### Anthropic API
-
-The application uses the Anthropic API to generate the memory palace text. It sends a prompt containing the user's input and receives a structured response describing the memory palace.
-
-### OpenAI API
-
-The OpenAI API is used for two purposes:
-1. Generating images based on the descriptions provided by the Anthropic API.
-2. Converting the narration text to speech.
-
 ## User Interface
 
 The UI consists of:
@@ -132,34 +116,11 @@ The UI consists of:
 - A "Generate" button
 - A results area displaying the generated memory palace, images, and narration
 
-## Image Generation
-
-Images are generated for each major element of the memory palace. Users can:
-
-- View the generated images
-- Copy the image generation prompts
-- Regenerate images if desired
-
-## Text-to-Speech
-
-The application provides text-to-speech functionality for the narration, allowing users to listen to a description of their memory palace.
-
-## Styling
-
-The application uses custom CSS for styling, with a responsive design that adapts to different screen sizes. It employs a clean, modern aesthetic with subtle animations for user interactions.
-
 ## Security Considerations
 
 - API keys are stored in the browser's local storage, which is not secure for production environments.
 - The application uses the `dangerouslyAllowBrowser: true` option for the Anthropic client, which is not recommended for production use.
 
-## Future Improvements
 
-Potential areas for enhancement include:
-
-1. Server-side API key management for improved security
-2. User accounts and saved memory palaces
-3. More customization options for the memory palace generation
-4. Integration with spaced repetition systems for effective memorization
-5. Accessibility improvements
-6. Performance optimizations for faster generation and loading
+## 🎫 License
+This project falls under the [GNU general public license.](https://github.com/mohsilas/clipycards/blob/main/LICENSE)
