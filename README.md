@@ -45,7 +45,7 @@ Mnemonikus is a single-page web application built with HTML, CSS, and JavaScript
 settings = loadSettings(); // settings can be accessed throughout the script
 response = generateMnemonic(user_input);
 // response => blah blah <img_prompt> image prompt </img_prompt> blah blah <narration> blah blah </narration>
-response = generateImage(response) // replaces <img_prompt> with <img src="url-to-the-generated-img">
+response = generateImage(response); // replaces <img_prompt> with <img src="url-to-the-generated-img">
 resultDiv.innerHTML = response;
 
 // other functions using special tags
