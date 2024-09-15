@@ -69,7 +69,7 @@ Users can configure various settings:
 
 - Anthropic API Key.
 - OpenAI API Key.
-- Anthropic Model.
+- Anthropic Model: login to [workbench](https://console.anthropic.com/workbench/) to test your configs before using.
 - Max Tokens - max length of text generated.
 - Temperature - creativity from 0.0 to 1.0.
 - Custom Prompt - note that certain \<tags\> in the prompt are vital for the app's functions. see the default prompt below.
