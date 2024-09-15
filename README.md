@@ -9,9 +9,9 @@
 </div>
 <br>
 
-Mnemonikus is a web application that generates memory palaces tour to help users memorize complex information. It uses Claude to generate the tour and Dalle3 to fill in the images.
+Mnemonikus is a web application that generates memory palace tours to help users memorize complex information. It uses Claude to generate the tour and Dalle3 to fill in the images.
 
-## Table of Contents
+## 📖 Table of Contents
 
 * [Features](#features)
 * [Technical Overview](#technical-overview)
@@ -20,21 +20,21 @@ Mnemonikus is a web application that generates memory palaces tour to help users
 * [Security Considerations](#security-considerations)
 * [License](#-license)
 
-## Features
+## 🦆 Features
 
-- generates a mind palace tour guide and audio narration.
+- generates a memory palace tour guide and audio narration.
 - advance settings ui.
 - download tour guide as pdf.
 - download tour narration as mp3.
 - use your own api, no middle-man fees.
 - compactness, the app is an html file that runs everything client-side.
 
-## Technical Overview
+## 🤓 Technical Overview
 
 Mnemonikus is a single-page web application built with HTML, CSS, and JavaScript. It integrates with two main AI services:
 
-1. Anthropic's Claude API for text generation
-2. OpenAI's DALL-E API for image generation and TTS for the tour narration
+1. Anthropic's Claude API for text generation.
+2. OpenAI's DALL-E API for image generation and TTS for the tour narration.
 
 <details>
   <summary> pseudocode </summary>
@@ -55,7 +55,7 @@ downloadNarration();
   ```
 </details>
 
-## Setup and Usage
+## 🎠 Setup and Usage
 
 1. Clone the repository or download the HTML file.
 2. Open the HTML file in a web browser.
@@ -63,18 +63,18 @@ downloadNarration();
 4. Input the information you want to memorize in the text area.
 5. Click "Generate" to create your memory palace.
 
-## Configuration
+## 🧰 Configuration
 
 Users can configure various settings:
 
-- Anthropic API Key
-- OpenAI API Key
-- Anthropic Model
-- Max Tokens - max length of text generated
-- Temperature - creativity from 0.0 to 1.0
+- Anthropic API Key.
+- OpenAI API Key.
+- Anthropic Model.
+- Max Tokens - max length of text generated.
+- Temperature - creativity from 0.0 to 1.0.
 - Custom Prompt - note that certain <tags> in the prompt are vital for the app's functions. see the default prompt below.
-- OpenAI Image Model
-- Image Resolution - see the table below
+- OpenAI Image Model.
+- Image Resolution - see the table below.
 - TTS Model - tts-1 is faster and cheaper, tts-1-hd produces higher quality.
 
 These settings are stored in the browser's local storage for persistence.
@@ -125,7 +125,7 @@ step 6: generate a narration of the scene and info as if you're a teacher trying
 ```
   </details>
 
-## Security Considerations
+## 🐛 Security Considerations
 
 - API keys are stored in the browser's local storage, which is not secure for production environments.
 - The application uses the `dangerouslyAllowBrowser: true` option for the Anthropic client, which is not recommended for production use.
