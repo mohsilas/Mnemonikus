@@ -16,6 +16,7 @@ Mnemonikus is a web application that generates memory palace tours to help users
 * [Features](#-features)
 * [Technical Overview](#-technical-overview)
 * [Setup and Usage](#-setup-and-usage)
+* [Error Codes](#-error-codes)
 * [Configuration](#-configuration)
 * [Security Considerations](#-security-considerations)
 * [License](#-license)
@@ -64,7 +65,7 @@ downloadNarration();
 5. Click "Generate" to create your memory palace.
 
 
-## ❗ Common Errors
+## ❗ Error Codes
 If any Error occured: open the developer tool on your browser => console, for more details. You can ask an AI about the error and how to resolve it. Though most errors will be solved by reloading the page, clearing the chache or restarting the browser (if incognito mode), pressing generate again.
 
 Due to the nature of using an API, there're four types of errors that you might experiance while using the app of a long time:
