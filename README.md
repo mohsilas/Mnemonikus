@@ -63,6 +63,18 @@ downloadNarration();
 4. Input the information you want to memorize in the text area.
 5. Click "Generate" to create your memory palace.
 
+
+## ❗ Common Errors
+If any Error occured: open the developer tool on your browser => console, for more details. You can ask an AI about the error and how to resolve it. Though most errors will be solved by reloading the page, clearing the chache or restarting the browser (if incognito mode), pressing generate again.
+
+Due to the nature of using an API, there're four types of errors that you might experiance while using the app of a long time:
+1. **overloaded_error** => it's simply means that anthropic's servers are overwhelmed by requests from around the world at the moment.
+2. **content_policy_violation** => this means that OpenAI can't generate an image because of their policies. (although claude is prompt to respect this policy, it might happen.)
+3. **invalid_request_error** => either low on balance or have exceeded your monthly api calls limits.
+4. **authentication_error** => wrong API key
+
+other errors (and the once above) are well documented by anthropic and openai.
+
 ## 🧰 Configuration
 
 Users can configure various settings:
