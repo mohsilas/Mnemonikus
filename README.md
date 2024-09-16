@@ -35,7 +35,7 @@ Mnemonikus is a web application that generates memory palace tours to help users
 
 ## 🤓 Technical Overview
 
-Mnemonikus is a single-page web application built with HTML, CSS, and JavaScript. It integrates with two main AI services:
+Mnemonikus is a single-file web application built with HTML, CSS, and JavaScript. It integrates with two main AI services:
 
 1. Anthropic's Claude API for text generation.
 2. OpenAI's DALL-E API for image generation and TTS for the tour narration.
