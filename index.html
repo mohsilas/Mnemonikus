@@ -1,0 +1,1478 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mnemonikus</title>
+        <style>
+            :root {
+                --primary-color: #191a1c;
+                --secondary-color: #26a25c;
+                --background-color: #f8f9fa;
+                --text-color: #333;
+            }
+
+            body {
+                height: 100%;
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                background-color: var(--background-color);
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            h1 {
+                color: var(--primary-color);
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .input-group {
+                margin-bottom: 20px;
+            }
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+
+            input[type="text"],
+            textarea {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                font-size: 16px;
+                line-height: 1.4;
+                resize: none;
+                transition: border-color 0.3s ease;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            textarea:focus {
+                outline: none;
+                border-color: var(--primary-color);
+            }
+
+            #prompt {
+                border: 2px solid transparent;
+                box-shadow: none;
+                background-color: var(--background-color);
+            }
+
+            #prompt:hover {
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                transition: border-color 0.3s ease;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            button {
+                display: block;
+                padding: 12px;
+                margin: auto;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 18px;
+                transition: background-color 0.3s ease;
+            }
+
+            button:hover {
+                background-color: var(--secondary-color);
+            }
+
+            #result {
+                display: none;
+                margin-top: 30px;
+                padding: 20px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                width: 99%;
+                min-height: 500px;
+                align-content: center;
+            }
+
+            .gear-button-container {
+                display: flex;
+                justify-content: center;
+                margin: 20px 0;
+            }
+
+            .gear-button {
+                border: none;
+                cursor: pointer;
+                padding: 10px;
+                border-radius: 50%;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background-color 0.3s;
+            }
+
+            .gear-button:hover {
+                background-color: #c0c0c0; /* Darker gray on hover */
+            }
+
+            .gear-icon {
+                width: 24px;
+                height: 24px;
+                transition: transform 0.3s;
+                margin: 0;
+            }
+
+            .gear-icon.rotate {
+                transform: rotate(90deg);
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                margin-top: 5px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            /**
+              * Flip to square
+              *
+              * @author jh3y - jheytompkins.com
+            */
+            @-webkit-keyframes flip-to-square {
+                0% {
+                    -webkit-transform: rotateX(-90deg);
+                    transform: rotateX(-90deg);
+                }
+                50%,
+                75% {
+                    -webkit-transform: rotateX(0);
+                    transform: rotateX(0);
+                }
+                100% {
+                    opacity: 0;
+                    -webkit-transform: rotateX(0);
+                    transform: rotateX(0);
+                }
+            }
+            @keyframes flip-to-square {
+                0% {
+                    -webkit-transform: rotateX(-90deg);
+                    transform: rotateX(-90deg);
+                }
+                50%,
+                75% {
+                    -webkit-transform: rotateX(0);
+                    transform: rotateX(0);
+                }
+                100% {
+                    opacity: 0;
+                    -webkit-transform: rotateX(0);
+                    transform: rotateX(0);
+                }
+            }
+
+            .flip-to-square {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                height: 60px;
+                width: 60px;
+                margin: auto;
+            }
+            .flip-to-square div {
+                -webkit-animation: flip-to-square 1.5s calc(var(--delay) * 1s)
+                    infinite backwards;
+                animation: flip-to-square 1.5s calc(var(--delay) * 1s) infinite
+                    backwards;
+                background-color: var(--primary-color);
+            }
+            .flip-to-square div:nth-child(1) {
+                --delay: 0.1;
+            }
+            .flip-to-square div:nth-child(2) {
+                --delay: 0.2;
+            }
+            .flip-to-square div:nth-child(3) {
+                --delay: 0.3;
+            }
+            .flip-to-square div:nth-child(4) {
+                --delay: 0.4;
+            }
+            .flip-to-square div:nth-child(5) {
+                --delay: 0.5;
+            }
+            .flip-to-square div:nth-child(6) {
+                --delay: 0.6;
+            }
+            .flip-to-square div:nth-child(7) {
+                --delay: 0.7;
+            }
+            .flip-to-square div:nth-child(8) {
+                --delay: 0.8;
+            }
+            .flip-to-square div:nth-child(9) {
+                --delay: 0.9;
+            }
+
+            #apiKeyForm {
+                display: none; /* This will be overridden when the form is shown */
+                background-color: #d3dbe3;
+                padding: 20px 35px 2px 5px;
+                width: 100%;
+                border-radius: 4px;
+                margin-bottom: 20px;
+                text-align: center;
+
+                /* Animation properties */
+                animation: slideDown 0.2s ease-in;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: scaleY(0.2);
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                    transform: scaleY(1); /* End at normal height */
+                }
+            }
+            #toggleApiForm {
+                background-color: transparent;
+                margin-bottom: 10px;
+            }
+
+            #toggleApiForm:hover {
+                background-color: #d3dbe3;
+            }
+            #dprint {
+                display: none;
+                margin-top: 20px;
+                background-color: transparent;
+                color: var(--text-color);
+            }
+
+            #dprint:hover {
+                cursor: pointer;
+                color: var(--secondary-color);
+            }
+
+            footer {
+                flex-shrink: 0;
+                background-color: var(--background-color);
+                color: var(--text-color);
+                padding: 15px 0;
+                margin-top: 40px;
+            }
+
+            .footer-content {
+                max-width: 800px;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .footer-section {
+                margin: 5px 0;
+                line-height: 1.2;
+            }
+
+            .footer-section p {
+                margin: 0;
+            }
+
+            footer a {
+                color: var(--text-color);
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            footer a:hover {
+                color: var(--secondary-color);
+            }
+
+            .page-container {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+
+            .content-wrap {
+                flex: 1 0 auto;
+            }
+
+            .narration-header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+
+            .narration-header h3 {
+                margin: 0;
+                margin-right: 10px;
+            }
+
+            .icon-button {
+                align-items: center;
+                background-color: transparent;
+                height: 24px;
+                cursor: pointer;
+                padding: 0px;
+                margin-left: 0px;
+                margin-right: 5px;
+                margin-top: 0px;
+                margin-bottom: 0px;
+                border-radius: 20px;
+            }
+
+            .icon-button img {
+                margin: 0px;
+                width: 24px;
+                height: 24px;
+            }
+
+            .icon-button:hover {
+                background-color: #c0c0c0;
+            }
+
+            .image-container {
+                position: relative;
+
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                margin-bottom: 30px;
+                margin-top: 5px;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .image-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                transition: opacity 0.3s;
+                border-radius: 5px;
+            }
+
+            .image-container:hover .image-overlay {
+                opacity: 1;
+            }
+
+            .image-overlay button {
+                margin: 5px;
+                padding: 10px;
+                background-color: #f5a623;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .loading-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                opacity: 0;
+                visibility: hidden;
+                transition:
+                    opacity 0.3s,
+                    visibility 0.3s;
+            }
+
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+                border: 5px solid black;
+                border-top: 5px solid var(--secondary-color);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-container">
+                <div class="content-wrap">
+                    <h1>🧠 Mnemonikus 🏰</h1>
+
+                    <div class="input-group">
+                        <textarea
+                            id="prompt"
+                            placeholder="Enter your key information to transform into a memory palace tour..."
+                            aria-label="Your prompt"
+                        ></textarea>
+                    </div>
+
+                    <div class="gear-button-container">
+                        <button id="toggleApiForm" class="gear-button">
+                            <img
+                                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItc2V0dGluZ3MiPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiPjwvY2lyY2xlPjxwYXRoIGQ9Ik0xOS40IDE1YTEuNjUgMS42NSAwIDAgMCAuMzMgMS44MmwuMDYuMDZhMiAyIDAgMCAxIDAgMi44MyAyIDIgMCAwIDEtMi44MyAwbC0uMDYtLjA2YTEuNjUgMS42NSAwIDAgMC0xLjgyLS4zMyAxLjY1IDEuNjUgMCAwIDAtMSAxLjUxVjIxYTIgMiAwIDAgMS0yIDIgMiAyIDAgMCAxLTItMnYtLjA5QTEuNjUgMS42NSAwIDAgMCA5IDE5LjRhMS42NSAxLjY1IDAgMCAwLTEuODIuMzNsLS4wNi4wNmEyIDIgMCAwIDEtMi44MyAwIDIgMiAwIDAgMSAwLTIuODNsLjA2LS4wNmExLjY1IDEuNjUgMCAwIDAgLjMzLTEuODIgMS42NSAxLjY1IDAgMCAwLTEuNTEtMUgzYTIgMiAwIDAgMS0yLTIgMiAyIDAgMCAxIDItMmguMDlBMS42NSAxLjY1IDAgMCAwIDQuNiA5YTEuNjUgMS42NSAwIDAgMC0uMzMtMS44MmwtLjA2LS4wNmEyIDIgMCAwIDEgMC0yLjgzIDIgMiAwIDAgMSAyLjgzIDBsLjA2LjA2YTEuNjUgMS42NSAwIDAgMCAxLjgyLjMzSDlhMS42NSAxLjY1IDAgMCAwIDEtMS41MVYzYTIgMiAwIDAgMSAyLTIgMiAyIDAgMCAxIDIgMnYuMDlhMS42NSAxLjY1IDAgMCAwIDEgMS41MSAxLjY1IDEuNjUgMCAwIDAgMS44Mi0uMzNsLjA2LS4wNmEyIDIgMCAwIDEgMi44MyAwIDIgMiAwIDAgMSAwIDIuODNsLS4wNi4wNmExLjY1IDEuNjUgMCAwIDAtLjMzIDEuODJWOWExLjY1IDEuNjUgMCAwIDAgMS41MSAxSDIxYTIgMiAwIDAgMSAyIDIgMiAyIDAgMCAxLTIgMmgtLjA5YTEuNjUgMS42NSAwIDAgMC0xLjUxIDF6Ij48L3BhdGg+PC9zdmc+"
+                                alt="Settings"
+                                class="gear-icon"
+                            />
+                        </button>
+                    </div>
+
+                    <div id="apiKeyForm">
+                        <div class="input-group">
+                            <label for="anthropicApiKey"
+                                >Anthropic API Key:</label
+                            >
+                            <input
+                                type="text"
+                                id="anthropicApiKey"
+                                placeholder="Enter your Anthropic API key"
+                                aria-label="Anthropic API Key"
+                            />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="openaiApiKey">OpenAI API Key:</label>
+                            <input
+                                type="text"
+                                id="openaiApiKey"
+                                placeholder="Enter your OpenAI API key"
+                                aria-label="OpenAI API Key"
+                            />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="ttsVoice">Narration Voice:</label>
+                            <select id="ttsVoice" aria-label="TTS Voice">
+                                <option value="alloy" selected>Alloy</option>
+                                <option value="echo">Echo</option>
+                                <option value="fable">Fable</option>
+                                <option value="onyx">Onyx</option>
+                                <option value="nova">Nova</option>
+                                <option value="shimmer">Shimmer</option>
+                            </select>
+                        </div>
+
+                        <br />
+                        <hr />
+                        <label
+                            >Advance Settings.
+                            <small
+                                >(pls don't touch without reading the
+                                docs)</small
+                            ></label
+                        >
+                        <br />
+
+                        <div class="input-group">
+                            <label for="anthropicModel">Anthropic Model:</label>
+                            <input
+                                type="text"
+                                id="anthropicModel"
+                                value="claude-3-5-sonnet-20240620"
+                                aria-label="Anthropic Model"
+                            />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="maxTokens"
+                                >Max Tokens:
+                                <span id="maxTokensValue">4019</span></label
+                            >
+                            <input
+                                type="range"
+                                id="maxTokens"
+                                min="1000"
+                                max="7000"
+                                value="4019"
+                                aria-label="Max Tokens"
+                            />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="temperature"
+                                >Temperature:
+                                <span id="temperatureValue">1</span></label
+                            >
+                            <input
+                                type="range"
+                                id="temperature"
+                                min="0"
+                                max="1"
+                                step="0.1"
+                                value="1"
+                                aria-label="Temperature"
+                            />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="useDefaultPrompt">
+                                <input
+                                    type="checkbox"
+                                    id="useDefaultPrompt"
+                                    name="useDefaultPrompt"
+                                />
+                                Use Custom Prompt
+                            </label>
+                            <textarea
+                                id="defaultPrompt"
+                                rows="5"
+                                aria-label="Custom Prompt"
+                                placeholder="Enter your custom prompt here..."
+                                disabled
+                            ></textarea>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="openaiModel">OpenAI Image Model:</label>
+                            <select
+                                id="openaiModel"
+                                aria-label="OpenAI Image Model"
+                            >
+                                <option value="dall-e-3" selected>
+                                    DALL-E 3
+                                </option>
+                                <option value="dall-e-2">DALL-E 2</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="imageResolution"
+                                >Image Resolution:</label
+                            >
+                            <select
+                                id="imageResolution"
+                                aria-label="Image Resolution"
+                            >
+                                <option value="1024x1024" selected>
+                                    1024x1024
+                                </option>
+                                <option value="1792x1024">1792x1024</option>
+                                <option value="1024x1792">1024x1792</option>
+                                <option value="512x512">512x512</option>
+                                <option value="256x256">256x256</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="ttsModel">TTS Model:</label>
+                            <select id="ttsModel" aria-label="TTS Model">
+                                <option value="tts-1" selected>tts-1</option>
+                                <option value="tts-1-hd">tts-1-hd</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button id="generateButton">Generate</button>
+
+                    <div id="result"></div>
+
+                    <button onclick="window.openDivInNewWindow()" id="dprint">
+                        🖨️ Print As PDF
+                    </button>
+                </div>
+            </div>
+            <footer>
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <a
+                            href="https://github.com/mohsilas/mnemonikus"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Github/Docs/Errors?</a
+                        >
+                    </div>
+
+                    <div class="footer-section">
+                        <span>
+                            <a
+                                href="https://www.buymeacoffee.com/mohsilas"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                >☕️ coffee</a
+                            >
+                            + <a href="mailto:mohsilas@outlook.com">🧑‍💻 dev</a> =
+                            😀 happy dev
+                        </span>
+                    </div>
+                    <div class="footer-section">
+                        <small
+                            >&copy; 2024 Mnemonikus. All rights reserved.</small
+                        >
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <script>
+            let currentAudio = null;
+            let isGeneratingAudio = false;
+
+            async function toggleNarration(button) {
+                const narrationHeader = button.closest(".narration-header");
+                console.log("Narration header:", narrationHeader);
+                const narrationSection = narrationHeader
+                    ? narrationHeader.nextElementSibling
+                    : null;
+                console.log("Narration section:", narrationSection);
+
+                if (
+                    !narrationSection ||
+                    narrationSection.tagName !== "NARRATION"
+                ) {
+                    console.error("Narration section not found or invalid");
+                    return;
+                }
+
+                const narrationText = narrationSection.textContent.trim();
+                const openaiApiKey =
+                    document.getElementById("openaiApiKey").value;
+
+                if (!openaiApiKey) {
+                    alert("Please enter your OpenAI API key in the settings.");
+                    return;
+                }
+
+                const img = button.querySelector("img");
+                const playIcon = button.getAttribute("data-play-icon");
+                const stopIcon = button.getAttribute("data-stop-icon");
+
+                if (currentAudio && !currentAudio.paused) {
+                    console.log("stop audio condition");
+                    // Stop playback
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                    img.src = playIcon;
+                    currentAudio = null;
+                } else if (!isGeneratingAudio) {
+                    // Check if audio is not being generated
+                    try {
+                        console.log("play audio condition");
+                        isGeneratingAudio = true; // Set flag to true
+                        img.src = stopIcon;
+
+                        const generatingNotification = notificationAlert(
+                            "🎧 Generating voice...",
+                            0,
+                            true,
+                        );
+
+                        const audioBlob = await generateSpeech(
+                            narrationText,
+                            openaiApiKey,
+                        );
+                        console.log("Audio blob created:", audioBlob);
+                        const audioUrl = URL.createObjectURL(audioBlob);
+                        console.log("Audio URL created:", audioUrl);
+                        currentAudio = new Audio(audioUrl);
+                        console.log("Audio object created:", currentAudio);
+
+                        // Remove the generating notification and show completion notification
+                        generatingNotification.remove();
+                        notificationAlert(
+                            "✅ Voice generation complete!",
+                            3000,
+                        );
+
+                        // Add event listener for when audio playback ends
+                        currentAudio.addEventListener("ended", () => {
+                            console.log("Audio playback ended");
+                            img.src = playIcon;
+                            currentAudio = null;
+                        });
+
+                        await currentAudio.play();
+                        console.log("Audio playback started");
+                    } catch (error) {
+                        console.error(
+                            "Error generating or playing speech:",
+                            error,
+                        );
+                        alert(
+                            "Sorry, there was an error generating or playing the speech.",
+                        );
+                        img.src = playIcon;
+                        currentAudio = null;
+                    } finally {
+                        isGeneratingAudio = false; // Reset flag regardless of success or failure
+                    }
+                } else {
+                    console.log("Audio generation in progress, please wait.");
+                    notificationAlert(
+                        "Audio generation in progress, please wait.",
+                        3000,
+                    );
+                }
+            }
+
+            async function generateSpeech(text, apiKey) {
+                const ttsVoice = document.getElementById("ttsVoice").value;
+                const ttsModel = document.getElementById("ttsModel").value;
+
+                console.log("Generating speech with:", { ttsVoice, ttsModel });
+
+                try {
+                    const response = await fetch(
+                        "https://api.openai.com/v1/audio/speech",
+                        {
+                            method: "POST",
+                            headers: {
+                                Authorization: `Bearer ${apiKey}`,
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                model: ttsModel,
+                                input: text,
+                                voice: ttsVoice,
+                            }),
+                        },
+                    );
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error(
+                            "OpenAI API error:",
+                            response.status,
+                            errorData,
+                        );
+                        throw new Error(
+                            `HTTP error! status: ${response.status}`,
+                        );
+                    }
+
+                    const blob = await response.blob();
+                    console.log(
+                        "Speech generated successfully, blob size:",
+                        blob.size,
+                    );
+                    return blob;
+                } catch (error) {
+                    console.error("Error in generateSpeech:", error);
+                    throw error;
+                }
+            }
+
+            function openDivInNewWindow() {
+                // Get the content of the div you want to display
+                const divContent = document.getElementById("result").outerHTML;
+
+                // Get all style sheets from the current document
+                const styles = Array.from(document.styleSheets)
+                    .map((styleSheet) => {
+                        try {
+                            return Array.from(styleSheet.cssRules)
+                                .map((rule) => rule.cssText)
+                                .join("\n");
+                        } catch (e) {
+                            console.log("Cannot access stylesheet rules");
+                            return "";
+                        }
+                    })
+                    .join("\n");
+
+                // Create a new HTML document
+                const newDoc = `
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Generated Page</title>
+                            <style>${styles}</style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                ${divContent}
+                            </div>
+                        </body>
+                        </html>
+                    `;
+
+                // Open a new window and write the new document to it
+                const newWindow = window.open();
+                newWindow.document.open();
+                newWindow.document.write(newDoc);
+                newWindow.document.close();
+
+                // Add a print button to the new window
+                const printButton = newWindow.document.createElement("button");
+                printButton.textContent = "Print";
+                printButton.onclick = function () {
+                    newWindow.print();
+                };
+                newWindow.document.body.appendChild(printButton);
+            }
+
+            function addTestButton(content) {
+                const playIconSrc =
+                    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1wbGF5LWNpcmNsZSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjxwb2x5Z29uIHBvaW50cz0iMTAgOCAxNiAxMiAxMCAxNiAxMCA4Ij48L3BvbHlnb24+PC9zdmc+";
+                const stopIconSrc =
+                    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1zdG9wLWNpcmNsZSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjxyZWN0IHg9IjkiIHk9IjkiIHdpZHRoPSI2IiBoZWlnaHQ9IjYiPjwvcmVjdD48L3N2Zz4=";
+                const downloadIconSrc =
+                    "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci1hcnJvdy1kb3duLWNpcmNsZSI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiPjwvY2lyY2xlPjxwb2x5bGluZSBwb2ludHM9IjggMTIgMTIgMTYgMTYgMTIiPjwvcG9seWxpbmU+PGxpbmUgeDE9IjEyIiB5MT0iOCIgeDI9IjEyIiB5Mj0iMTYiPjwvbGluZT48L3N2Zz4=";
+
+                return content.replace(
+                    /(<hr><h3>Narration<\/h3>)/g,
+                    `<hr><div class="narration-header">
+                        <h3>Narration</h3>
+                        <button class="icon-button" onclick="toggleNarration(this)" data-play-icon="${playIconSrc}" data-stop-icon="${stopIconSrc}">
+                            <img src="${playIconSrc}" alt="Read">
+                        </button>
+                        <button class="icon-button" onclick="downloadNarration(this)">
+                            <img src="${downloadIconSrc}" alt="Download">
+                        </button>
+                    </div>`,
+                );
+            }
+
+            async function downloadNarration(button) {
+                const narrationHeader = button.closest(".narration-header");
+                const narrationSection = narrationHeader
+                    ? narrationHeader.nextElementSibling
+                    : null;
+
+                if (
+                    !narrationSection ||
+                    narrationSection.tagName !== "NARRATION"
+                ) {
+                    console.error("Narration section not found or invalid");
+                    return;
+                }
+
+                const narrationText = narrationSection.textContent.trim();
+                const openaiApiKey =
+                    document.getElementById("openaiApiKey").value;
+
+                if (!openaiApiKey) {
+                    alert("Please enter your OpenAI API key in the settings.");
+                    return;
+                }
+
+                try {
+                    // Show notification for starting voice generation
+                    const generatingNotification = notificationAlert(
+                        "🎧 Generating voice for download...",
+                        0,
+                        true,
+                    );
+
+                    const audioBlob = await generateSpeech(
+                        narrationText,
+                        openaiApiKey,
+                    );
+
+                    // Remove the generating notification and show completion notification
+                    generatingNotification.remove();
+                    notificationAlert(
+                        "✅ Voice generation complete! Downloading...",
+                        3000,
+                    );
+
+                    const url = window.URL.createObjectURL(audioBlob);
+                    const a = document.createElement("a");
+                    a.style.display = "none";
+                    a.href = url;
+                    a.download = "narration.mp3";
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                } catch (error) {
+                    console.error(
+                        "Error generating speech for download:",
+                        error,
+                    );
+                    alert(
+                        "Sorry, there was an error generating the speech for download.",
+                    );
+                }
+            }
+
+            function notificationAlert(
+                msg,
+                duration = 3000,
+                persistent = false,
+            ) {
+                const notification = document.createElement("div");
+                notification.textContent = msg;
+                notification.style.position = "fixed";
+                notification.style.bottom = "20px";
+                notification.style.right = "20px";
+                notification.style.backgroundColor = "#d3dbe3";
+                notification.style.color = "black";
+                notification.style.padding = "10px";
+                notification.style.borderRadius = "5px";
+                notification.style.zIndex = "1000";
+                document.body.appendChild(notification);
+
+                if (!persistent) {
+                    setTimeout(() => notification.remove(), duration);
+                }
+
+                return notification; // Return the notification element
+            }
+        </script>
+        <script type="module">
+            import { Anthropic } from "https://cdn.skypack.dev/@anthropic-ai/sdk";
+
+            function delay(ms) {
+                return new Promise((resolve) => setTimeout(resolve, ms));
+            }
+
+            async function rateLimitedParallelProcess(
+                tasks,
+                maxConcurrent,
+                interval,
+            ) {
+                const results = [];
+                const queue = [...tasks];
+                const inProgress = new Set();
+
+                async function runTask(task) {
+                    try {
+                        const result = await task();
+                        results.push(result);
+                    } catch (error) {
+                        results.push({ error });
+                    } finally {
+                        inProgress.delete(task);
+                    }
+                }
+
+                async function processQueue() {
+                    while (queue.length > 0 || inProgress.size > 0) {
+                        while (
+                            inProgress.size < maxConcurrent &&
+                            queue.length > 0
+                        ) {
+                            const task = queue.shift();
+                            inProgress.add(task);
+                            runTask(task);
+                        }
+                        await new Promise((resolve) =>
+                            setTimeout(resolve, interval),
+                        );
+                    }
+                }
+
+                await processQueue();
+                return results;
+            }
+
+            function loadSettings() {
+                const settings = [
+                    "anthropicApiKey",
+                    "openaiKey",
+                    "anthropicModel",
+                    "maxTokens",
+                    "temperature",
+                    "useDefaultPrompt",
+                    "defaultPrompt",
+                    "openaiModel",
+                    "imageResolution",
+                    "ttsVoice",
+                    "ttsModel",
+                ];
+
+                settings.forEach((key) => {
+                    const value = localStorage.getItem(key);
+                    if (value) {
+                        const element = document.getElementById(key);
+                        if (element) {
+                            if (element.type === "checkbox") {
+                                element.checked = atob(value) === "true";
+                                document.getElementById(
+                                    "defaultPrompt",
+                                ).disabled = !element.checked;
+                            } else if (element.tagName === "SELECT") {
+                                element.value = atob(value);
+                            } else if (element.type === "range") {
+                                element.value = atob(value);
+                                document.getElementById(
+                                    `${key}Value`,
+                                ).textContent = element.value;
+                            } else {
+                                element.value = atob(value);
+                            }
+                        }
+                    }
+                });
+            }
+
+            function saveSettings() {
+                const settings = {
+                    anthropicApiKey:
+                        document.getElementById("anthropicApiKey").value,
+                    openaiKey: document.getElementById("openaiApiKey").value,
+                    anthropicModel:
+                        document.getElementById("anthropicModel").value,
+                    maxTokens: document.getElementById("maxTokens").value,
+                    temperature: document.getElementById("temperature").value,
+                    useDefaultPrompt:
+                        document.getElementById("useDefaultPrompt").checked,
+                    defaultPrompt:
+                        document.getElementById("defaultPrompt").value,
+                    openaiModel: document.getElementById("openaiModel").value,
+                    imageResolution:
+                        document.getElementById("imageResolution").value,
+                    ttsVoice: document.getElementById("ttsVoice").value,
+                    ttsModel: document.getElementById("ttsModel").value,
+                };
+
+                Object.keys(settings).forEach((key) => {
+                    if (settings[key] !== undefined) {
+                        localStorage.setItem(
+                            key,
+                            btoa(settings[key].toString()),
+                        );
+                    }
+                });
+
+                notificationAlert("Settings saved");
+            }
+
+            async function generateImage(prompt, apiKey, retryCount = 0) {
+                try {
+                    const openaiModel =
+                        document.getElementById("openaiModel").value;
+                    const imageResolution =
+                        document.getElementById("imageResolution").value;
+
+                    const response = await fetch(
+                        "https://api.openai.com/v1/images/generations",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${apiKey}`,
+                            },
+                            body: JSON.stringify({
+                                model: openaiModel,
+                                prompt: prompt,
+                                n: 1,
+                                size: imageResolution,
+                            }),
+                        },
+                    );
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(
+                            `OpenAI API error: ${response.status} - ${errorData.error?.message || "Unknown error"}`,
+                        );
+                    }
+
+                    const data = await response.json();
+                    if (!data.data || !data.data[0] || !data.data[0].url) {
+                        throw new Error(
+                            "Unexpected response format from OpenAI API",
+                        );
+                    }
+                    return data.data[0].url;
+                } catch (error) {
+                    console.error("Error in generateImage:", error);
+                    notificationAlert(
+                        "Error in generateImage: Retrying in 10 seconds...",
+                        3000,
+                    );
+                    if (retryCount < 2) {
+                        console.log(
+                            `Retrying in 10 seconds... (Attempt ${retryCount + 1})`,
+                        );
+                        await delay(10000); // Wait for 30 seconds
+                        return generateImage(prompt, apiKey, retryCount + 1);
+                    }
+                    throw error;
+                }
+            }
+
+            function autoExpandTextarea() {
+                const textarea = document.getElementById("prompt");
+                textarea.addEventListener("input", function () {
+                    this.style.height = "auto";
+                    this.style.height = this.scrollHeight + "px";
+                    saveTextareaState();
+                });
+            }
+
+            function saveTextareaState() {
+                const textarea = document.getElementById("prompt");
+                localStorage.setItem("textareaHeight", textarea.style.height);
+                localStorage.setItem("textareaContent", textarea.value);
+            }
+
+            function restoreTextareaState() {
+                const textarea = document.getElementById("prompt");
+                const savedHeight = localStorage.getItem("textareaHeight");
+                const savedContent = localStorage.getItem("textareaContent");
+
+                if (savedContent) {
+                    textarea.value = savedContent;
+                    if (savedHeight) {
+                        textarea.style.height = savedHeight;
+                    } else {
+                        textarea.style.height = "auto";
+                        textarea.style.height = textarea.scrollHeight + "px";
+                    }
+                }
+            }
+
+            function removeLoadingAnimation(resultElement) {
+                const loadingDiv =
+                    resultElement.querySelector(".flip-to-square");
+                if (loadingDiv) {
+                    loadingDiv.remove();
+                }
+            }
+
+            async function generateMnemonic() {
+                const generateButton =
+                    document.getElementById("generateButton");
+                const settingsButton = document.getElementById("toggleApiForm");
+
+                const dprintButton = document.getElementById("dprint");
+                const anthropicApiKey =
+                    document.getElementById("anthropicApiKey").value;
+                const anthropicModel =
+                    document.getElementById("anthropicModel").value;
+                const openaiApiKey =
+                    document.getElementById("openaiApiKey").value;
+                const prompt = document.getElementById("prompt").value;
+                const resultElement = document.getElementById("result");
+
+                // Hide the generate and settings buttons
+                generateButton.style.display = "none";
+                settingsButton.style.display = "none";
+
+                // Show the result div and download/print  button
+                resultElement.style.display = "block";
+
+                if (!anthropicApiKey || !openaiApiKey || !prompt) {
+                    alert("Please provide both API keys and a prompt.");
+                    resultElement.style.display = "none"; // Hide the result div if there's an error
+                    dprintButton.style.display = "none";
+
+                    generateButton.style.display = "block"; // Show the generate button again
+                    settingsButton.style.display = "block";
+                    return;
+                }
+
+                const anthropic = new Anthropic({
+                    apiKey: anthropicApiKey,
+                    dangerouslyAllowBrowser: true,
+                });
+
+                try {
+                    const textNotification = notificationAlert(
+                        "📝 Generating text...",
+                        0,
+                        true,
+                    );
+
+                    resultElement.innerHTML =
+                        '<div class="flip-to-square"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
+
+                    const useDefaultPrompt =
+                        document.getElementById("useDefaultPrompt").checked;
+                    const systemPrompt = useDefaultPrompt
+                        ? document.getElementById("defaultPrompt").value
+                        : "You're a creative writing AI agent named Mnemonikus whose job is to turn whatever complex info you're given into an image prompt comprehensively describing the interior of a memory palace (a memory palace is a location or a scene that's used to store information). Make sure the number of info given can fit the number of elements described as per the rules/tips/steps of creating a memory palace:\nRule 1: choose a location/scene. Depending on the info given, choose the appropriate  setting. And generate a title for the scene inside an <h2> tag.\nRule 2: plan out the route/path you walk inside the scene. put it inside <div id=\"route\" style =\"display:none\"> tag\nRule 3: pick a theme, mood, lighting/time of the day, dominant colors, art style, composition and put theme in a <img_common style='display: none'> tag, and then use them later when generating image prompts.\nRule 4: the scene and route you create must be short, concise and easy to follow.\nRule 5: Don't use too many adjectives.\nRule 6: Don't describe unrelated elements.\nRule 7: put each description/paragraph in a <disc> tag, this formate helps parsing the response.\n\nRule 8: at the end of each paragraph (where a paragraph describes an encoded piece of info), create a suitable image prompt to generate an image, formate it inside an <img_prompt> tag. Make sure that all the images follow these tips:\na. Be Specific and Detailed.\nb. Describe the mood or atmosphere you want to convey.\nc. Use Descriptive Adjectives.\nd. Consider Perspective and Composition.\ne. Specify Lighting and Time of Day.\nf. Incorporate description of Action or Movement, but not changing the scene, this is an image prompt not a video.\ng. Avoid Overloading the Prompt.\nh. Use Analogies or Comparisons.\ni. Specify Desired Art Styles or Themes.\nj. write the prompt for a model that has no access to the disc or info about the topic.\nk. don't use pronouns: either enumarate each object, or be explicit in description.\nl. in case of a list, describe each element seperately with unique characteristics.\n\nRule 9: at the end, give a summarized list as an <ul> bullet points, titled \"Summary\" discribing how each piece of info is represented in the scene put it in a <div>. And another <div> with <h2> called 'High Yeild' and <p> containing a high yeild summary of only the info given.\n\nhere're are some general steps followed when making a memory palace:\nStep 1: For your first memory palace, try choosing a place that you can describe well.\nStep 2: Plan out the whole route — for example: front door, shoe rack, bathroom, kitchen, living room, etc. Some people find that going clockwise is helpful, but it isn't necessary. Eventually, you will have many memory palaces. You will also be able to revise the memory palace after you test it a few times, so don't worry if it's not perfect on the first try.\nStep 3: Now take a list of something that you want to memorize — a shopping list of 20 items is a good place to start: carrots, bread, milk, tea, oats, apples, etc.\nStep 4: Take one or two items at a time and place a mental image of them in each locus of your memory palace. Try to exaggerate the images of the items and have them interact with the location. Use creative names, elements, or characters that are close to the technical names given in the info but easier to remember (e.g. \"noradrinalline\" as \"Nora {noradrinalline}\"). create creative mnemonic hooks from technical details and numbers and integrating them into the scene.\nStep 5: Make the mnemonic images come alive with your senses. Exaggeration of the images and humor can help.\nstep 6: generate a narration of the scene and info as if you're a teacher trying to help students memorize the info through the memory palace technique. Use the disc generated and its image prompt as a guide. Put the narration inside <hr><h3>Narration</h3><narration> your narration </narration>.\n";
+
+                    const msg = await anthropic.messages.create({
+                        model: anthropicModel,
+                        max_tokens: parseInt(
+                            document.getElementById("maxTokens").value,
+                        ),
+                        temperature: parseFloat(
+                            document.getElementById("temperature").value,
+                        ),
+                        system: systemPrompt,
+                        messages: [
+                            {
+                                role: "user",
+                                content: prompt,
+                            },
+                        ],
+                    });
+
+                    console.log(msg);
+                    let content = msg.content[0].text;
+
+                    textNotification.remove();
+                    const imageNotification = notificationAlert(
+                        "🖼️ Generating images...",
+                        0,
+                        true,
+                    );
+
+                    content = addTestButton(content);
+
+                    // Generate images for each img_prompt
+                    // Generate images for each img_prompt
+                    const imgPrompts = content.match(
+                        /<img_prompt>(.*?)<\/img_prompt>/gs,
+                    );
+                    if (imgPrompts) {
+                        const imageTasks = imgPrompts.map(
+                            (imgPrompt, index) => {
+                                return async () => {
+                                    const promptText = imgPrompt
+                                        .replace(/<\/?img_prompt>/g, "")
+                                        .trim();
+                                    try {
+                                        const imageUrl = await generateImage(
+                                            promptText,
+                                            openaiApiKey,
+                                        );
+                                        return {
+                                            index,
+                                            html: `<div class="image-container">
+                                            <img src="${imageUrl}" alt="${encodeURIComponent(promptText)}" style="max-width: 100%; height: auto;">
+                                            <div class="image-overlay">
+                                                <button class="copy-prompt" data-prompt="${encodeURIComponent(promptText)}">Copy Prompt</button>
+                                                <button class="regenerate-image" data-prompt="${encodeURIComponent(promptText)}">Regenerate Image</button>
+                                            </div>
+                                            <div class="loading-overlay">
+                                                <div class="loading-spinner"></div>
+                                            </div>
+                                        </div>`,
+                                        };
+                                    } catch (error) {
+                                        console.error(
+                                            "Error generating image:",
+                                            error,
+                                        );
+
+                                        return {
+                                            index,
+                                            html: `<div class="image-container">
+                                                <img src="data:image/png;base64, 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" alt="Error generating image" style="max-width: 100%; height: auto;">
+                                                <p class="error-message">Error generating image: ${error.message}</p>
+                                                <div class="image-overlay">
+                                                    <button class="copy-prompt" data-prompt="${encodeURIComponent(promptText)}">Copy Prompt</button>
+                                                    <button class="regenerate-image" data-prompt="${encodeURIComponent(promptText)}">Regenerate Image</button>
+                                                </div>
+                                            </div>`,
+                                        };
+                                    }
+                                };
+                            },
+                        );
+
+                        const maxConcurrent = 5; // Maximum concurrent API calls
+                        const interval = 1000; // 12 seconds interval to respect the rate limit
+
+                        const results = await rateLimitedParallelProcess(
+                            imageTasks,
+                            maxConcurrent,
+                            interval,
+                        );
+
+                        // Sort results by original index and replace img_prompt tags
+                        results
+                            .sort((a, b) => a.index - b.index)
+                            .forEach((result, index) => {
+                                content = content.replace(
+                                    imgPrompts[index],
+                                    result.html,
+                                );
+                            });
+                    }
+
+                    imageNotification.remove();
+                    notificationAlert("✅ Generation complete!", 3000);
+
+                    removeLoadingAnimation(resultElement);
+                    resultElement.innerHTML = content;
+                } catch (error) {
+                    console.error("Error:", error);
+                    resultElement.textContent = `An error occurred: ${error.message}. Check the console for details.`;
+                } finally {
+                    // Show the generate button again, regardless of success or failure
+                    generateButton.style.display = "block";
+                    settingsButton.style.display = "block";
+                    dprintButton.style.display = "block";
+                }
+            }
+
+            // does a bunch of things :)
+            document.addEventListener("DOMContentLoaded", () => {
+                const toggleButton = document.getElementById("toggleApiForm");
+                const gearIcon = toggleButton.querySelector(".gear-icon");
+                const apiKeyForm = document.getElementById("apiKeyForm");
+                const generateButton =
+                    document.getElementById("generateButton");
+                const openaiApiKeyInput =
+                    document.getElementById("openaiApiKey");
+                const openaiModelInput = document.getElementById("openaiModel");
+                const imageResolutionInput =
+                    document.getElementById("imageResolution");
+                const anthropicApiKeyInput =
+                    document.getElementById("anthropicApiKey");
+                const anthropicModelInput =
+                    document.getElementById("anthropicModel");
+                const maxTokensInput = document.getElementById("maxTokens");
+                const temperatureInput = document.getElementById("temperature");
+                const useDefaultPromptCheckbox =
+                    document.getElementById("useDefaultPrompt");
+                const defaultPromptInput =
+                    document.getElementById("defaultPrompt");
+                const ttsVoiceInput = document.getElementById("ttsVoice");
+                const ttsModelInput = document.getElementById("ttsModel");
+
+                useDefaultPromptCheckbox.addEventListener(
+                    "change",
+                    function () {
+                        defaultPromptTextarea.disabled = !this.checked;
+                        if (this.checked) {
+                            defaultPromptTextarea.focus();
+                        }
+                    },
+                );
+
+                // Load saved settings when the page loads
+                loadSettings();
+
+                // Update displayed values for sliders
+                maxTokensInput.addEventListener("input", () => {
+                    document.getElementById("maxTokensValue").textContent =
+                        maxTokensInput.value;
+                });
+
+                temperatureInput.addEventListener("input", () => {
+                    document.getElementById("temperatureValue").textContent =
+                        temperatureInput.value;
+                });
+
+                toggleButton.addEventListener("click", () => {
+                    gearIcon.classList.toggle("rotate");
+                    if (
+                        apiKeyForm.style.display === "none" ||
+                        apiKeyForm.style.display === ""
+                    ) {
+                        apiKeyForm.style.display = "block";
+                    } else {
+                        apiKeyForm.style.display = "none";
+                        // Save settings when hiding the form
+                        saveSettings();
+                    }
+                });
+
+                if (generateButton) {
+                    generateButton.addEventListener("click", () => {
+                        saveSettings(); // Save settings before generating
+                        generateMnemonic();
+                    });
+                }
+
+                // Save settings when they change
+                [
+                    anthropicApiKeyInput,
+                    openaiApiKeyInput,
+                    anthropicModelInput,
+                    maxTokensInput,
+                    temperatureInput,
+                    useDefaultPromptCheckbox,
+                    defaultPromptInput,
+                    openaiModelInput,
+                    imageResolutionInput,
+                    ttsVoiceInput,
+                    ttsModelInput,
+                ].forEach((input) => {
+                    if (input.type === "checkbox") {
+                        input.addEventListener("change", () => {
+                            saveSettings();
+                            defaultPromptInput.disabled =
+                                !useDefaultPromptCheckbox.checked;
+                        });
+                    } else {
+                        input.addEventListener("change", saveSettings);
+                    }
+                });
+
+                autoExpandTextarea();
+                restoreTextareaState();
+            });
+
+            document.addEventListener("click", async function (e) {
+                if (e.target.classList.contains("copy-prompt")) {
+                    const prompt = decodeURIComponent(e.target.dataset.prompt);
+                    await navigator.clipboard.writeText(prompt);
+                    notificationAlert("Prompt copied to clipboard!");
+                }
+
+                if (e.target.classList.contains("regenerate-image")) {
+                    const prompt = decodeURIComponent(e.target.dataset.prompt);
+                    const imgContainer = e.target.closest(".image-container");
+                    const img = imgContainer.querySelector("img");
+                    const loadingOverlay =
+                        imgContainer.querySelector(".loading-overlay");
+
+                    try {
+                        // Show loading overlay
+                        loadingOverlay.style.opacity = "1";
+                        loadingOverlay.style.visibility = "visible";
+
+                        const openaiApiKey =
+                            document.getElementById("openaiApiKey").value;
+                        const newImageUrl = await generateImage(
+                            prompt,
+                            openaiApiKey,
+                        );
+
+                        // Create a new image object to preload the new image
+                        const newImg = new Image();
+                        newImg.onload = function () {
+                            // When the new image is loaded, update the src and hide the loading overlay
+                            img.src = newImageUrl;
+                            loadingOverlay.style.opacity = "0";
+                            loadingOverlay.style.visibility = "hidden";
+                        };
+                        newImg.src = newImageUrl;
+                    } catch (error) {
+                        console.error("Error regenerating image:", error);
+                        alert(`Error regenerating image: ${error.message}`);
+                        // Hide loading overlay in case of error
+                        loadingOverlay.style.opacity = "0";
+                        loadingOverlay.style.visibility = "hidden";
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
